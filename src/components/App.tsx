@@ -36,7 +36,10 @@ function App() {
       <h1>Backlog-dle</h1>
       {games.map(game => (
         <article>
-          <h4>{game.name}</h4>
+          <hgroup>
+            <h4>{game.name}</h4>
+            <small>{game.category}</small>
+          </hgroup>
           <div className={styles.play}>
             <a href={game.link} target="_blank">Jugar</a>
             {/* <input type="checkbox" name="played" checked /> */}
