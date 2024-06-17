@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./App.module.css";
 
 type Game = {
   name: string;
@@ -26,6 +27,7 @@ function App() {
       games: newGames
     }))
 
+    event.currentTarget.reset();
     setIsNewGameModalVisible(false);
   }
 
@@ -35,7 +37,21 @@ function App() {
       {games.map(game => (
         <article>
           <h4>{game.name}</h4>
-          <a href={game.link} target="_blank">Jugar</a>
+          <div className={styles.play}>
+            <a href={game.link} target="_blank">Jugar</a>
+            {/* <input type="checkbox" name="played" checked /> */}
+          </div>
+          <footer>
+            <button
+              className="outline"
+              onClick={() => {
+                const newGames = games.filter(g => g.name !== game.name);
+                setGames(newGames);
+                localStorage.setItem('games', JSON.stringify({
+                  games: newGames
+                }))
+              }}>Eliminar</button>
+          </footer>
         </article>
       ))}
       <button onClick={() => setIsNewGameModalVisible(true)}>Agregar Juego</button>
@@ -51,19 +67,19 @@ function App() {
             <fieldset>
               <label>
                 Nombre del juego
-                <input type="text" name="name" placeholder="Wordle" />
+                <input required type="text" name="name" placeholder="Wordle" />
               </label>
               <label>
                 Categoria
-                <input type="text" name="category" placeholder="Palabras" />
+                <input required type="text" name="category" placeholder="Palabras" />
               </label>
               <label>
                 Link
-                <input type="text" name="link" placeholder="https://lapalabradeldia.com/" />
+                <input required type="text" name="link" placeholder="https://lapalabradeldia.com/" />
               </label>
             </fieldset>
             <input type="submit" value="Agregar" />
-          </form>
+            <button className="outline" onClick={() => setIsNewGameModalVisible(false)} >Cancelar</button>          </form>
         </article>
       </dialog>
     </>
